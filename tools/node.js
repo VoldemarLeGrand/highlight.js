@@ -3,6 +3,7 @@
 var _        = require('lodash');
 var bluebird = require('bluebird');
 var path     = require('path');
+var os       = require('os');
 
 var packageJSON = require('../package');
 var registry    = require('./tasks');
@@ -58,13 +59,13 @@ function buildIndex() {
       output = path.join(directory.build, 'lib', 'index.js'),
 
       templateArgs = {
-        template: [ 'var hljs = require(\'./highlight\');\n'
+        template: [ 'var hljs = require(\'./highlight\');' + os.EOL
                   , '<% _.each(names, function(name) { %>' +
                     'hljs.registerLanguage(\'<%= name %>\', ' +
                     'require(\'./languages/<%= name %>\'));'
                   , '<% }); %>'
                   , 'module.exports = hljs;'
-                  ].join('\n'),
+                  ].join(os.EOL),
         callback: templateAllFunc
       };
 

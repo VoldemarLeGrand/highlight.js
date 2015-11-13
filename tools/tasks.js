@@ -4,6 +4,7 @@ var _        = require('lodash');
 var del      = require('del');
 var gear     = require('gear');
 var path     = require('path');
+var os       = require('os');
 var utility  = require('./utility');
 
 var parseHeader = utility.parseHeader;
@@ -217,7 +218,7 @@ tasks.readSnippet = function(options, blob, done) {
 tasks.insertLicenseTag = function(options, blob, done) {
   var hljsVersion = require('../package').version,
       licenseTag  = '/*! highlight.js v' + hljsVersion + ' | ' +
-                    'BSD3 License | git.io/hljslicense */\n';
+                    'BSD3 License | git.io/hljslicense */' + os.EOL;
 
   return done(null, new gear.Blob(licenseTag + blob.result, blob));
 };
@@ -231,16 +232,16 @@ tasks.packageFiles = function(options, blobs, done) {
 
       lines     = coreFile.result
                     .replace(utility.regex.header, '')
-                    .split('\n\n'),
+                    .split(/\r?\n\r?\n/),
       lastLine  = _.last(lines),
       langStr   = _.foldl(languages, function(str, language) {
-                    return str + language.result + '\n';
+                    return str + language.result + os.EOL;
                   }, '');
 
   lines[lines.length - 1] = langStr.trim();
 
   lines   = lines.concat(lastLine);
-  content = lines.join('\n\n');
+  content = lines.join(os.EOL + os.EOL);
 
   return done(null, [new gear.Blob(content)]);
 };

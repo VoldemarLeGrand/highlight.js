@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var os   = require('os');
 
 var browserBuild = require('./browser');
 var registry     = require('./tasks');
@@ -16,7 +17,7 @@ function moveLanguages() {
 
       replaceArgs = replace(regex.header, ''),
       template    = 'hljs.registerLanguage(\'<%= name %>\','+
-                    ' <%= content %>);\n';
+                    ' <%= content %>);' + os.EOL;
 
   return {
     startLog: { task: ['log', 'Building language files.'] },

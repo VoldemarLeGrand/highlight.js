@@ -4,6 +4,7 @@ var _        = require('lodash');
 var bluebird = require('bluebird');
 var fs       = bluebird.promisifyAll(require('fs'));
 var path     = require('path');
+var os       = require('os');
 
 var registry = require('./tasks');
 var utility  = require('./utility');
@@ -81,7 +82,7 @@ module.exports = function(commander, dir) {
       filterCB     = utility.buildFilterCallback(commander.args),
       replaceArgs  = replace(regex.header, ''),
       templateArgs =
-        'hljs.registerLanguage(\'<%= name %>\', <%= content %>);\n';
+        'hljs.registerLanguage(\'<%= name %>\', <%= content %>);' + os.EOL;
 
   tasks = {
     startLog: { task: ['log', 'Building highlight.js pack file.'] },

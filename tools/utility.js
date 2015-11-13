@@ -87,7 +87,7 @@ function parseHeader(content) {
     return null;
   }
 
-  headers = _.compact(match[1].split('\n'));
+  headers = _.compact(match[1].split(/\r?\n/));
 
   return _.foldl(headers, function(result, header) {
     var keyVal = header.trim().split(': '),
